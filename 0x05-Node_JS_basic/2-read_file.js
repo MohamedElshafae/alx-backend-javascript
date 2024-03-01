@@ -10,7 +10,7 @@ const countStudents = (path) => {
     let count = 0;
     lines.forEach((line) => {
       const temp = line.trim().split(',');
-      count++;
+      count += 1;
       const firstName = temp[0];
       const field = temp[3];
       if (dictionary[field]) {
