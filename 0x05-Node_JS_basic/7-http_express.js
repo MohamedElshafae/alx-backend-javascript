@@ -43,11 +43,9 @@ app.get('/students', async (req, res) => {
 
   try {
     const studentData = await countStudents(filePath);
-    res.status(200);
     res.type('text/plain');
     res.send(studentData.trimEnd());
   } catch (error) {
-    res.status(500);
     res.type('text/plain');
     res.send(error.message);
   }
