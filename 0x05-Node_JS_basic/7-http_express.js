@@ -1,9 +1,9 @@
 /* eslint-disable guard-for-in */
-const http = require('http');
+const express = require('express');
 const fs = require('fs').promises;
 
+const app = express();
 const port = 1245;
-const path = process.argv[2];
 
 const countStudents = async (path) => {
   try {
@@ -33,15 +33,23 @@ const countStudents = async (path) => {
   }
 };
 
-const app = http.createServer(async (req, res) => {
-  if (req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('This is the list of our students\n');
-    const studentList = await countStudents(path);
-    res.end(studentList.trimEnd());
+app.get('/', (req, res) => {
+  res.type('text/plain');
+  res.send('Hello Holberton School!');
+});
+
+app.get('/students', async (req, res) => {
+  const filePath = process.argv[2];
+
+  try {
+    const studentData = await countStudents(filePath);
+    res.status(200);
+    res.type('text/plain');
+    res.send(studentData.trimEnd());
+  } catch (error) {
+    res.status(500);
+    res.type('text/plain');
+    res.send(error.message);
   }
 });
 
