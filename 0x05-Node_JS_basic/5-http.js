@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 const http = require('http');
 const fs = require('fs').promises;
 
